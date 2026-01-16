@@ -1,3 +1,3 @@
-- Nom:
-- Prénom:
+- Nom: Deroo
+- Prénom: Valentin
 - URL vercel: 
