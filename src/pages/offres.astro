@@ -2,6 +2,8 @@
 import '../styles/global.css'
 import Header from "../components/Header.astro";
 import Layout from '../layouts/Layout.astro';
+import card from '../components/card.astro';
+import '../styles/global.css'
 const offres = [
     {
         "adresse": "2821 Lake Sevilla, Palm Harbor, TX",
@@ -37,15 +39,46 @@ const offres = [
         "imgUrl": "image3.png"
     }
 ]
+
 ---
-<Layout titre="Offres">
+<Layout titre="Offres" class="bg-black">
     <h1 class="text-pink-600 text-5xl">Offres</h1>
     <div>
-{offres.map((offre) => 
+        {offres.map((offre) => 
         <ul>
-            <li>{offre.nomMaison}</li>
+            <li class="text-green-700 text-2xl">{offre.nomMaison}</li>
         </ul>
     )}
 </div>
-
+<button id="favori-button" class="bg-slate-600 rounded-lg text-white p-2">Afficher les favoris</button>
+<div>
+    {
+        offres.map(offre => (
+            <div class="offre" data-favori={offre.favori.toString()}>
+                <!-- Contenu de l'offre -->
+            </div>
+        ))
+    }
+</div>
 </Layout>
+<script>
+    const button = document.getElementById('favori-button');
+    let showOnlyFavorites = false;
+    
+    button?.addEventListener('click', () => {
+        showOnlyFavorites = !showOnlyFavorites;
+        const offres:NodeListOf<HTMLElement> = document.querySelectorAll('.offre');
+        
+        offres.forEach(offre => {
+            const isFavori = offre.dataset.favori === 'true';
+            
+            if (showOnlyFavorites) {
+                offre.style.display = isFavori ? 'block' : 'none';
+                button.textContent = 'Afficher tout';
+            } else {
+                offre.style.display = 'block';
+                button.textContent = 'Afficher les favoris';
+            }
+        });
+    });
+</script>
