@@ -1,2 +1,32 @@
 ---
+const { offre } = Astro.props;
+import PbImage from "./PbImage.astro";
+---
 
+<div class="card">
+    <PbImage record={offre} recordImage={offre.images[0]} />
+
+    <h2>{offre.nomMaison}</h2>
+    <p>{offre.adresse}</p>
+
+
+
+    {offre.favori && <span class="favori">★ Favori</span>}
+</div>
+
+<style>
+    .card {
+        border: 1px solid #ddd;
+        padding: 1rem;
+        border-radius: 8px;
+        max-width: 260px;
+    }
+    img {
+        width: 100%;
+        border-radius: 6px;
+    }
+    .favori {
+        color: gold;
+        font-weight: bold;
+    }
+</style>
