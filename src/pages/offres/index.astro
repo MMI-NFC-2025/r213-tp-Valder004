@@ -1,9 +1,7 @@
 ---
-import "../styles/global.css";
-import Layout from "../layouts/Layout.astro";
-import "../styles/global.css";
-import { getOffres } from "../js/backend.mjs";
-import Card from "../components/Card.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getOffres } from "../../js/backend.mjs";
+import Card from "../../components/Card.astro";
 
 const offres = await getOffres();
 console.log(offres);
