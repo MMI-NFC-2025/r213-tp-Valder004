@@ -3,13 +3,43 @@ import Layout from "../../layouts/Layout.astro";
 import { getOffres } from "../../js/backend.mjs";
 import Card from "../../components/Card.astro";
 
-const offres = await getOffres();
+
+
+let offres = await getOffres();
 console.log(offres);
+
+let message = '';
+if (Astro.request.method === "POST") {
+    const data = await Astro.request.formData();
+    const minPrix = parseInt(data.get("minPrix"));
+    const maxPrix = parseInt(data.get("maxPrix"));
+
+    if (minPrix > 0 && maxPrix > 0 && maxPrix > minPrix) {
+        offres = await filterByPrix(minPrix, maxPrix);
+        if (offres.length === 0) {
+            message = `Pas d'offres entre ${minPrix}€ et ${maxPrix}€`;
+        } else {
+            message = `Liste des offres entre ${minPrix}€ et ${maxPrix}€`;
+        }
+    } else {
+        message = "Veuillez entrer des valeurs valides pour le prix.";
+    }
+} else {
+    offres = await getOffres();
+}
 ---
 
-<Layout titre="Offres" class="bg-black">
+
+
+<Layout />
+<form action="/offres" method="POST">
+    <input type="number" name="minPrix" placeholder="Prix minimum" />
+    <input type="number" name="maxPrix" placeholder="Prix maximum" />
+    <input type="submit" value="Filtrer par prix" />
+</form>
     <h1 class="text-pink-600 text-5xl">Offres</h1>
     <div>
+        <a href="/offres/add" class="bg-blue-500 text-white px-4 py-1 rounded">Ajouter une offre</a>
         {
         <div id="offres-container">
             {offres.map((offre) => (
@@ -24,11 +54,10 @@ console.log(offres);
     <button id="favori-button" class="bg-slate-600 rounded-lg text-white p-2"
         >Afficher les favoris</button
     >
-</Layout>
 <script>
     //@ts-nocheck
 
-    const button = document.getElementById("favori-button");
+   const button = document.getElementById("favori-button");
     let showOnlyFavorites = false;
 
     button.addEventListener("click", () => {

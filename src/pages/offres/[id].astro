@@ -1,26 +1,15 @@
 ---
-import { getOffre } from '../../backend.js';
-import ...  from '../../layouts/Base.astro';
-
+import { getOffre } from '../../js/backend.mjs';
+import Layout from '../../layouts/Layout.astro';
 const { id } = Astro.params;
 const offre = await getOffre(id);
 ---
 
-<Base titre={offre.nom_maison}>
+<Layout titre={offre.nom_maison}>
     <h2>{offre.nom_maison}</h2>
     <ul>
         <li>{offre.adresse}</li>
         ...
     </ul>
-</Base>
+</Layout>
 
-//backend.js
-export async function getOffre(id) {
-    try {
-        const data = await db.collection('maison').getOne(id);
-        return data;
-    } catch (error) {
-        console.log('Une erreur est survenue en lisant la maison', error);
-        return null;
-    }
-}

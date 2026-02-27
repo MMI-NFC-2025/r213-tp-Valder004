@@ -15,6 +15,32 @@ export async function getOffres() {
     }
 }
 
+export async function getOffre(id) {
+    try {
+        const data = await db.collection('maison').getOne(id);
+        return data;
+    } catch (error) {
+        console.log('Une erreur est survenue en lisant la maison', error);
+        return null;
+    }
+}
+
 export async function getImageUrl(record, recordImage) {
     return db.files.getURL(record, recordImage);
+}
+
+export async function addOffre(house) {
+    try {
+        await db.collection('maison').create(house);
+        return {
+            success: true,
+            message: 'Offre ajoutée avec succès'
+        };
+    } catch (error) {
+        console.log('Une erreur est survenue en ajoutant la maison', error);
+        return {
+            success: false,
+            message: 'Une erreur est survenue en ajoutant la maison'
+        };
+    }
 }

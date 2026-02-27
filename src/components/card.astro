@@ -4,11 +4,17 @@ import PbImage from "./PbImage.astro";
 ---
 
 <div class="card">
-    <PbImage record={offre} recordImage={offre.images[0]} />
+    <a href={`/offres/${offre.id}`}>
+        <PbImage record={offre} recordImage={offre.images[0]} />
+    </a>
 
     <h2>{offre.nom_maison}</h2>
 
+    <h2>{offre.prix} €</h2>
 
+    <h2>{offre.nbSdb} salle(s) de bain</h2>
+    <h2>{offre.nbChambres} chambre(s)</h2>
+    <h2>{offre.superficie} m²</h2>
 
 
     {offre.favori && <span class="favori">★ Favori</span>}
